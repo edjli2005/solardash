@@ -1,70 +1,278 @@
 <!-- DOCTYPE HTML -->
 <html>
 	<head>
-		<title>Your First React Project</title>
-		<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Catamaran:200,300,400,500,600,700" rel="stylesheet">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+		<title>Solar Charging Station Dashboard</title>
 		<link rel="stylesheet" href="css/style.css">
 	</head>
 
 	<body>
 		<div id="content"></div>
-		<script src="https://fb.me/react-0.14.6.js"></script>
-		<script src="https://fb.me/react-dom-0.14.6.js"></script>
-		<script src="http://fb.me/JSXTransformer-0.12.1.js"></script>
-		<script type="text/jsx">
 
-		var DATA = {
+		<div class="left">
+			<div class="aboutbox">
+				<div class="left-inner">
+					<div class="bg-img"></div>
+					<div class="desc">
+						<img id="logo" src="img/modpod-logo.png" alt="MODPOD" height="60px" width="60px" style="padding-bottom: 15px">
+						<p>This installation is a solar-powered, digitally fabricated pop-up charging station built by a group of SMU students as part of an Immersive Design Challenge, a week-long program hosted by the Deason Innovation Gym at SMU. It is a design study intended to promote the use of clean energy while simultaneously enhancing the experience of public spaces.
+						<br><br>
+						MODPOD is the result of a partnership with the Better Block Foundation and Good Faith Energy. Better Block’s Wikiblock library is an open-source toolkit of designs for benches, chairs, planters, stages, bus stops, beer garden fences, and kiosks that can be downloaded for free. The modules you see here are the newest addition to the Wikiblock library. Wikiblock designs can be taken to a makerspace where a CNC router (a computer-aided machine) can cut them out of a sheet of plywood. Most products can then be assembled without glue or nails, and used instantly to make a block better. Our modules are the first in Wikiblock to incorporate solar. With Good Faith, MODPODs can help any community take a step towards “distributed generation,” meaning power consumed at the point of generation, and a brighter, cleaner better block.</p>
+			    </div>
+				</div>
+			</div>
+			<div class="chartbox">
+				<ul class="tab">
+				  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'powergen')" id="defaultOpen"><h4>Solar Energy Generated</h4></a></li>
+				  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'battery')"><h4>Battery Charge Level</h4></a></li>
+				  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'statspage')"><h4>Stats</h4></a></li>
+				</ul>
 
-		}
+				<div id="powergen" class="tabcontent">
+					<button class="button btnlinks" href="javascript:void(0)" onclick="openBtn(event, 'daygraph')" id="btnDefaultOpen"><h4>Past 24 hours</h4></button>
+					<button class="button btnlinks" href="javascript:void(0)" onclick="openBtn(event, 'monthgraph')"><h4>Past month</h4></button>
+					<button class="button btnlinks" href="javascript:void(0)" onclick="openBtn(event, 'yeargraph')"><h4>Past year</h4></button>
 
-			var app = React.createClass({
-				render: function(){
-					return (
-						<div className="app">
-							<Left
-							/>
-							<Right
-							/>
-						</div>
-					);
-				}
-			});
+					<div id="daygraph" class="btncontent">
+						<canvas id="powergenday"></canvas>
+					</div>
+					<div id="monthgraph" class="btncontent">
+						<canvas id="powergenmonth"></canvas>
+					</div>
+					<div id="yeargraph" class="btncontent">
+						<canvas id="powergenyear"></canvas>
+					</div>
+				</div>
 
-			var Left = React.createClass({
-				render: function(){
-					return(
-						<div className="left">
-							<div className="chartbox">
+				<div id="battery" class="tabcontent">
+				  <canvas id="batterygraph"></canvas>
+				</div>
 
-							</div>
-							<div className="aboutbox">
-								<h1>THIS IS MODPOD.</h1>
-								<p>This installation is a solar-powered, digitally fabricated pop-up charging station built by a group of SMU students as part of an Immersive Design Challenge, a week-long intensive rapid research, development, and prototyping program hosted by the Deason Innovation Gym at SMU. It is a design study intended to promote the use of clean energy while simultaneously enhancing the experience of public spaces.
+				<div id="statspage" class="tabcontent">
+				  <p>Things will go here.</p>
+				</div>
 
-						    MODPOD is the result of a partnership with the Better Block Foundation and Good Faith Energy. Better Block’s Wikiblock library is an open-source toolkit of designs for benches, chairs, planters, stages, bus stops, beer garden fences, and kiosks that can be downloaded for free. The modules you see here are the newest addition to the Wikiblock library. Wikiblock designs can be taken to a makerspace where a CNC router (a computer-aided machine) can cut them out of a sheet of plywood. Most products can then be assembled without glue or nails, and used instantly to make a block better. Our modules are the first in Wikiblock to incorporate solar. With Good Faith, MODPODs can help any community take a step towards “distributed generation,” meaning power consumed at the point of generation, and a brighter, cleaner better block.</p>
-							</div>
-						</div>
-					);
-				}
-			});
+			</div>
+		</div>
 
-			var Right = React.createClass({
-				render: function(){
-					return(
-						<div className="right">
-						  <!--something needs to go here...-->
-						</div>
-					);
-				}
-			});
+		<div class="right">
+		  <img id="fakeinvite" src="img/fakeinvite.png" alt="sample invitation" style="max-width: 90%; padding: 25px">
+		</div>
 
-			ReactDOM.render(
-				<App profileData={DATA} />,
-				document.getElementById('content')
-			);
+		<script>
+			function openTab(evt, tabName) {
+		    var i, tabcontent, tablinks;
 
+		    // Get all elements with class="tabcontent" and hide them
+		    tabcontent = document.getElementsByClassName("tabcontent");
+		    for (i = 0; i < tabcontent.length; i++) {
+		        tabcontent[i].style.display = "none";
+		    }
+
+		    // Get all elements with class="tablinks" and remove the class "active"
+		    tablinks = document.getElementsByClassName("tablinks");
+		    for (i = 0; i < tablinks.length; i++) {
+		        tablinks[i].className = tablinks[i].className.replace(" active", "");
+		    }
+
+		    // Show the current tab, and add an "active" class to the link that opened the tab
+		    document.getElementById(tabName).style.display = "block";
+		    evt.currentTarget.className += " active";
+			}
+			// Get the element with id="defaultOpen" and click on it
+			document.getElementById("defaultOpen").click();
+		</script>
+		<script>
+			function openBtn(evt, btnName) {
+		    var i, btncontent, btnlinks;
+
+		    // Get all elements with class="tabcontent" and hide them
+		    btncontent = document.getElementsByClassName("btncontent");
+		    for (i = 0; i < btncontent.length; i++) {
+		        btncontent[i].style.display = "none";
+		    }
+
+		    // Get all elements with class="tablinks" and remove the class "active"
+		    btnlinks = document.getElementsByClassName("btnlinks");
+		    for (i = 0; i < btnlinks.length; i++) {
+		        btnlinks[i].className = btnlinks[i].className.replace(" btnactive", "");
+		    }
+
+		    // Show the current tab, and add an "active" class to the link that opened the tab
+		    document.getElementById(btnName).style.display = "block";
+		    evt.currentTarget.className += " btnactive";
+			}
+			// Get the element with id="defaultOpen" and click on it
+			document.getElementById("btnDefaultOpen").click();
+		</script>
+
+		<script src="node_modules/chart.js/dist/Chart.js"></script>
+		<script>
+			var ctx = document.getElementById("powergenyear");
+		  var powergenyear = new Chart(ctx, {
+		    type: 'line',
+		    data: {
+		       labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+    			datasets: [
+		        {
+	            label: "Solar Energy Generated",
+	            fill: false,
+	            lineTension: 0.1,
+	            backgroundColor: "rgba(75,192,192,0.4)",
+	            borderColor: "rgba(75,192,192,1)",
+	            borderCapStyle: 'butt',
+	            borderDash: [],
+	            borderDashOffset: 0.0,
+	            borderJoinStyle: 'miter',
+	            pointBorderColor: "rgba(75,192,192,1)",
+	            pointBackgroundColor: "#fff",
+	            pointBorderWidth: 1,
+	            pointHoverRadius: 5,
+	            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+	            pointHoverBorderColor: "rgba(220,220,220,1)",
+	            pointHoverBorderWidth: 2,
+	            pointRadius: 1,
+	            pointHitRadius: 10,
+	            data: [3.73499703, 4.98091841, 4.86094952, 5.98002195, 6.63947439, 5.92488766, 6.61624813, 6.86557484, 5.50785542, 4.56621027, 4.10454655, 3.16900349],
+	            spanGaps: false,
+		        }
+			    ]
+		    },
+		    options: {
+		        scales: {
+		            yAxes: [{
+		                ticks: {
+		                    beginAtZero:true
+		                }
+		            }]
+		        }
+		    }
+		});
+		</script>
+		<script>
+			var ctx = document.getElementById("powergenmonth");
+		  var powergenmonth = new Chart(ctx, {
+		    type: 'line',
+		    data: {
+		       labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"],
+    			datasets: [
+		        {
+	            label: "Solar Energy Generated",
+	            fill: false,
+	            lineTension: 0.1,
+	            backgroundColor: "rgba(75,192,192,0.4)",
+	            borderColor: "rgba(75,192,192,1)",
+	            borderCapStyle: 'butt',
+	            borderDash: [],
+	            borderDashOffset: 0.0,
+	            borderJoinStyle: 'miter',
+	            pointBorderColor: "rgba(75,192,192,1)",
+	            pointBackgroundColor: "#fff",
+	            pointBorderWidth: 1,
+	            pointHoverRadius: 5,
+	            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+	            pointHoverBorderColor: "rgba(220,220,220,1)",
+	            pointHoverBorderWidth: 2,
+	            pointRadius: 1,
+	            pointHitRadius: 10,
+	            data: [5.254333333, 3.392333333, 9.019875, 5.5945, 1.312125, 8.997291667, 8.994708333, 8.503166667, 8.96375, 4.57425, 8.668208333, 8.9405, 8.787458333, 8.801875, 8.765083333, 5.747333333, 1.189083333, 1.355083333, 9.028125, 7.484416667, 9.195416667, 4.265708333, 1.660708333, 2.261, 9.621458333, 9.405958333, 8.545541667, 5.606291667, 3.506541667, 1.568541667, 6.3175],
+	            spanGaps: false,
+		        }
+			    ]
+		    },
+		    options: {
+		        scales: {
+		            yAxes: [{
+		                ticks: {
+		                    beginAtZero:true
+		                }
+		            }]
+		        }
+		    }
+		});
+		</script>
+		<script>
+			var ctx = document.getElementById("powergenday");
+		  var powergenday = new Chart(ctx, {
+		    type: 'line',
+		    data: {
+		       labels: ["12AM", "1AM", "2AM", "3AM", "4AM", "5AM", "6AM", "7AM", "8AM", "9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM", "9PM", "10PM", "11PM"],
+    			datasets: [
+		        {
+	            label: "Solar Energy Generated",
+	            fill: false,
+	            lineTension: 0.1,
+	            backgroundColor: "rgba(75,192,192,0.4)",
+	            borderColor: "rgba(75,192,192,1)",
+	            borderCapStyle: 'butt',
+	            borderDash: [],
+	            borderDashOffset: 0.0,
+	            borderJoinStyle: 'miter',
+	            pointBorderColor: "rgba(75,192,192,1)",
+	            pointBackgroundColor: "#fff",
+	            pointBorderWidth: 1,
+	            pointHoverRadius: 5,
+	            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+	            pointHoverBorderColor: "rgba(220,220,220,1)",
+	            pointHoverBorderWidth: 2,
+	            pointRadius: 1,
+	            pointHitRadius: 10,
+	            data: [0, 0, 0, 0, 0, 0, 0, 0, 2.186, 2.988, 4.083, 8.013, 3.753, 3.627, 3.253, 3.06, 1.093, 0.466, 0, 0, 0, 0, 0, 0],
+	            spanGaps: false,
+		        }
+			    ]
+		    },
+		    options: {
+		        scales: {
+		            yAxes: [{
+		                ticks: {
+		                    beginAtZero:true
+		                }
+		            }]
+		        }
+		    }
+		});
+		</script>
+		<script>
+			var ctx = document.getElementById("batterygraph");
+		  var battery = new Chart(ctx, {
+		    type: 'line',
+		    data: {
+	        labels: ["12AM", "1AM", "2AM", "3AM", "4AM", "5AM", "6AM", "7AM", "8AM", "9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM", "9PM", "10PM", "11PM"],
+	        datasets: [
+		        {
+	            label: 'Battery Charge Percentage',
+	            fill: false,
+	            lineTension: 0.1,
+	            backgroundColor: "rgba(75,192,192,0.4)",
+	            borderColor: "rgba(75,192,192,1)",
+	            borderCapStyle: 'butt',
+	            borderDash: [],
+	            borderDashOffset: 0.0,
+	            borderJoinStyle: 'miter',
+	            pointBorderColor: "rgba(75,192,192,1)",
+	            pointBackgroundColor: "#fff",
+	            pointBorderWidth: 1,
+	            pointHoverRadius: 5,
+	            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+	            pointHoverBorderColor: "rgba(220,220,220,1)",
+	            pointHoverBorderWidth: 2,
+	            pointRadius: 1,
+	            pointHitRadius: 10,
+	            data: [52, 60, 65, 74, 85, 94, 100, 100, 96, 92, 91, 85, 84, 84, 81, 78, 75, 72, 68,65, 62, 58, 56, 54],
+	            spanGaps: false,
+		        }
+		      ]
+		    },
+		    options: {
+		        scales: {
+		            yAxes: [{
+		                ticks: {
+		                    beginAtZero:true
+		                }
+		            }]
+		        }
+		    }
+		});
 		</script>
 	</body>
 </html>
